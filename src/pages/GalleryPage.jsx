@@ -13,78 +13,92 @@ const GalleryPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const categories = ['All', 'Donation Drives', 'Events', 'Volunteers', 'Community'];
+    const categories = ['All', 'Documentation', 'Donation Drives', 'Events', 'Volunteers', 'Community'];
 
     const galleryImages = [
         {
             id: 1,
-            src: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=2073&auto=format&fit=crop",
+            src: "Documentation 1.jpeg",
+            category: "Documentation"
+        },
+        {
+            id: 2,
+            src: "Documentation 2.jpeg",
+            category: "Documentation"
+        },
+        {
+            id: 3,
+            src: "Documentation 3.jpeg",
+            category: "Documentation"
+        },
+        {
+            id: 4,
+            src: "Documentation 4.jpeg",
+            category: "Documentation"
+        },
+        {
+            id: 5,
+            src: "Event 2.jpeg",
             caption: "Children discovering new books at our library",
             category: "Community"
         },
         {
-            id: 2,
-            src: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=2022&auto=format&fit=crop",
+            id: 6,
+            src: "Event 2.jpeg",
             caption: "Annual book distribution drive in rural schools",
             category: "Donation Drives"
         },
         {
-            id: 3,
-            src: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=2070&auto=format&fit=crop",
+            id: 7,
+            src: "Event 5.jpeg",
             caption: "Volunteer training workshop",
             category: "Volunteers"
         },
         {
-            id: 4,
-            src: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2032&auto=format&fit=crop",
+            id: 8,
+            src: "Event 9.jpeg",
             caption: "Young reader enjoying a storybook",
             category: "Community"
         },
         {
-            id: 5,
-            src: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=2073&auto=format&fit=crop",
+            id: 9,
+            src: "Event 10.jpeg",
             caption: "Organizing books for distribution",
             category: "Donation Drives"
         },
         {
-            id: 6,
-            src: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?q=80&w=2028&auto=format&fit=crop",
+            id: 10,
+            src: "Event 1.jpeg",
             caption: "Community book fair event",
             category: "Events"
         },
         {
-            id: 7,
-            src: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=2070&auto=format&fit=crop",
+            id: 11,
+            src: "Event 4.jpeg",
             caption: "Digital literacy training session",
             category: "Events"
         },
         {
-            id: 8,
-            src: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?q=80&w=2070&auto=format&fit=crop",
+            id: 12,
+            src: "Event 6.jpeg",
             caption: "Reading circle with children",
             category: "Community"
         },
         {
-            id: 9,
-            src: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=2070&auto=format&fit=crop",
+            id: 13,
+            src: "Event 7.jpeg",
             caption: "Volunteers packing books for donation",
             category: "Volunteers"
         },
         {
-            id: 10,
-            src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2070&auto=format&fit=crop",
+            id: 14,
+            src: "Event 8.jpeg",
             caption: "Mobile library reaching remote villages",
             category: "Donation Drives"
         },
         {
-            id: 11,
-            src: "https://images.unsplash.com/photo-1519682337058-a94d519337bc?q=80&w=2070&auto=format&fit=crop",
-            caption: "Team meeting planning next drive",
-            category: "Volunteers"
-        },
-        {
-            id: 12,
-            src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=2071&auto=format&fit=crop",
+            id: 15,
+            src: "Event 5.jpeg",
             caption: "Storytelling session at community center",
             category: "Events"
         }

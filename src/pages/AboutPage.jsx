@@ -14,8 +14,8 @@ const AboutPage = () => {
             <header className="about-header">
                 <h1>About Our Foundation</h1>
                 <p className="text-white">
-  Empowering communities through education and building brighter futures for children across India.
-</p>
+                    Empowering communities through education and building brighter futures for children across India.
+                </p>
 
             </header>
 
@@ -43,7 +43,7 @@ const AboutPage = () => {
 
                     <div className="image-column">
                         <img
-                            src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?q=80&w=2070&auto=format&fit=crop"
+                            src="Mission.jpeg"
                             alt="Foundation vehicle and mission center"
                         />
                     </div>
@@ -89,40 +89,46 @@ const AboutPage = () => {
 // Data Array for Board Members
 const boardMembers = [
     {
-        name: "Prof. Zvi Bentwich",
-        role: "Founder and President",
-        image: "https://randomuser.me/api/portraits/men/32.jpg",
-        thought: "I came to know about the foundation when I started working on NTDs as a researcher and got chance to witness their accomplishments."
+        name: "Shailendra Kumar",
+        role: "Founder and Director",
+        image: "Founder.jpg",
+        thought: "Giving is not just about making a donation, it is about making an impact. Every contribution helps us move closer to a world where compassion and support create real transformation."
     },
     {
-        name: "Dr Reut Barak Weekes",
-        role: "Chair of Board",
-        image: "https://randomuser.me/api/portraits/women/44.jpg",
-        thought: "To me, this means a dedicated organization working for real change of needy communities. I am thrilled to be part of the board."
+        name: "Ajay Kumar",
+        role: "2nd Director",
+        image: "2nd Director.jpg",
+        thought: "Our mission is to create opportunities and bring positive change to lives that need it most. With your support, we can continue to empower communities, spread hope, and build a brighter tomorrow."
     },
     {
-        name: "Dr. Einav Levy",
-        role: "Director",
-        image: "https://randomuser.me/api/portraits/men/22.jpg",
-        thought: "Every child deserves a healthy start. Our mission is to ensure no community is left behind in the fight against preventable diseases."
+        name: "Amit Kumar",
+        role: "Member",
+        image: "Amit Kumar.jpg",
+        thought: "As a united team, we are dedicated to bringing positive change and meaningful support to those in need. Your contribution helps us create opportunities, spread hope, and build a brighter future for many lives."
     },
     {
-        name: "Janet Levy Pahima",
-        role: "Director",
-        image: "https://randomuser.me/api/portraits/women/68.jpg",
-        thought: "It is an honor to serve with a team so committed to transparency, impact, and sustainable development."
+        name: "Ankit Gautam",
+        role: "Member",
+        image: "Ankit Gautam.jpg",
+        thought: "As a united team, we are dedicated to bringing positive change and meaningful support to those in need. Your contribution helps us create opportunities, spread hope, and build a brighter future for many lives"
     },
     {
-        name: "Jonathan Middleburgh",
-        role: "Director",
-        image: "https://randomuser.me/api/portraits/men/62.jpg",
-        thought: "Building bridges between resources and needs is what we do best. The foundation is a beacon of hope."
+        name: "Kanchan devi",
+        role: "Member",
+        image: "Kanchan devi.jpg",
+        thought: "Together, we work with one mission — to serve humanity with compassion and commitment. Every donation you make empowers us to reach more people and make a lasting difference in society."
     },
     {
-        name: "Mandie Winston",
-        role: "Director",
-        image: "https://randomuser.me/api/portraits/women/33.jpg",
-        thought: "Empowering women and children is not just charity, it is an investment in the future of humanity."
+        name: "Satyprakash",
+        role: "Member",
+        image: "Satyprakash.jpg",
+        thought: "Driven by vision and guided by compassion, our team strives to create real impact in the community. Your support strengthens our mission and helps transform lives every day."
+    },
+    {
+        name: "Soni",
+        role: "Member",
+        image: "Soni.jpg",
+        thought: "We believe that true change happens when people come together for a cause. Your generous contribution helps us bring hope, care, and support to those who need it most."
     }
 ];
 
