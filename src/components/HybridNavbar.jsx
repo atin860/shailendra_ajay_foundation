@@ -49,20 +49,49 @@ const HybridNavbar = () => {
         }
     }, [location.pathname]);
 
+    // Lock body scroll when mobile menu is open
+    useEffect(() => {
+        if (isMobileMenuOpen) {
+            // Save current scroll position
+            const scrollY = window.scrollY;
+            document.body.style.position = 'fixed';
+            document.body.style.top = `-${scrollY}px`;
+            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
+        } else {
+            // Restore scroll position
+            const scrollY = document.body.style.top;
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
+            }
+        }
+
+        // Cleanup on unmount
+        return () => {
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            document.body.style.overflow = '';
+        };
+    }, [isMobileMenuOpen]);
+
     const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
     return (
-        <nav 
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-                scrolled ? 'bg-white/90 backdrop-blur-md shadow-soft py-2' : 'bg-white py-4'
-            }`}
-            role="navigation" 
+        <nav
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-soft py-2' : 'bg-white py-4'
+                }`}
+            role="navigation"
             aria-label="Main navigation"
         >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                 {/* Logo */}
                 <RouterLink to="/" className="flex items-center gap-3 z-50 relative group">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="w-10 h-10 bg-gradient-to-br from-primary-600 to-primary-800 rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg group-hover:shadow-primary-500/30 transition-shadow"
@@ -81,15 +110,14 @@ const HybridNavbar = () => {
                         <RouterLink
                             key={item.id}
                             to={item.path}
-                            className={`relative px-4 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-primary-50 ${
-                                activeSection === item.id ? 'text-primary-700' : 'text-text-light hover:text-primary-600'
-                            }`}
+                            className={`relative px-4 py-2 text-sm font-semibold transition-colors rounded-lg hover:bg-primary-50 ${activeSection === item.id ? 'text-primary-700' : 'text-text-light hover:text-primary-600'
+                                }`}
                             data-section={item.id}
                         >
                             {item.label}
                         </RouterLink>
                     ))}
-                    
+
                     {/* Animated Underline */}
                     <motion.div
                         className="absolute bottom-0 h-0.5 bg-secondary-500 rounded-full pointer-events-none"
@@ -156,14 +184,14 @@ const HybridNavbar = () => {
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={closeMobileMenu}
-                            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 xl:hidden"
+                            className="fixed inset-0 bg-black/20 backdrop-blur-sm z-[100] xl:hidden"
                         />
                         <motion.div
                             initial={{ x: '100%' }}
                             animate={{ x: 0 }}
                             exit={{ x: '100%' }}
                             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                            className="fixed top-0 right-0 bottom-0 w-[280px] bg-white shadow-2xl z-50 xl:hidden flex flex-col overflow-hidden"
+                            className="fixed top-0 right-0 bottom-0 w-[280px] bg-white shadow-2xl z-[101] xl:hidden flex flex-col overflow-hidden"
                         >
                             <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-primary-50/50">
                                 <span className="font-bold text-primary-900">Menu</span>
@@ -171,7 +199,7 @@ const HybridNavbar = () => {
                                     <X size={20} />
                                 </button>
                             </div>
-                            
+
                             <div className="flex-1 overflow-y-auto py-4 px-4">
                                 <div className="flex flex-col gap-2">
                                     {menuItems.map((item) => (
@@ -179,11 +207,10 @@ const HybridNavbar = () => {
                                             key={item.id}
                                             to={item.path}
                                             onClick={closeMobileMenu}
-                                            className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
-                                                activeSection === item.id 
-                                                ? 'bg-primary-50 text-primary-700' 
+                                            className={`px-4 py-3 rounded-xl text-sm font-semibold transition-all ${activeSection === item.id
+                                                ? 'bg-primary-50 text-primary-700'
                                                 : 'text-text-light hover:bg-gray-50 hover:text-primary-600'
-                                            }`}
+                                                }`}
                                         >
                                             {item.label}
                                         </RouterLink>

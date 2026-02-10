@@ -13,29 +13,9 @@ const GalleryPage = () => {
         window.scrollTo(0, 0);
     }, []);
 
-    const categories = ['All', 'Documentation', 'Donation Drives', 'Events', 'Volunteers', 'Community'];
+    const categories = ['All', 'Donation Drives', 'Events', 'Volunteers', 'Community'];
 
     const galleryImages = [
-        {
-            id: 1,
-            src: "Documentation 1.jpeg",
-            category: "Documentation"
-        },
-        {
-            id: 2,
-            src: "Documentation 2.jpeg",
-            category: "Documentation"
-        },
-        {
-            id: 3,
-            src: "Documentation 3.jpeg",
-            category: "Documentation"
-        },
-        {
-            id: 4,
-            src: "Documentation 4.jpeg",
-            category: "Documentation"
-        },
         {
             id: 5,
             src: "Event 2.jpeg",

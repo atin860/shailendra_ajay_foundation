@@ -9,12 +9,12 @@ const GallerySectionScroll = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     const images = [
-        { url: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80', caption: 'Children enjoying books' },
-        { url: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&q=80', caption: 'Community library' },
-        { url: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80', caption: 'Reading session' },
-        { url: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80', caption: 'Volunteer team' },
-        { url: 'https://images.unsplash.com/photo-1519682337058-a94d519337bc?w=600&q=80', caption: 'Book distribution' },
-        { url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&q=80', caption: 'Workshop event' }
+        { url: 'Event 1.jpeg', caption: 'Children enjoying books' },
+        { url: 'Event 2.jpeg', caption: 'Community library' },
+        { url: 'Event 3.jpeg', caption: 'Reading session' },
+        { url: 'Event 4.jpeg', caption: 'Volunteer team' },
+        { url: 'Event 5.jpeg', caption: 'Book distribution' },
+        { url: 'Event 6.jpeg', caption: 'Workshop event' }
     ];
 
     return (

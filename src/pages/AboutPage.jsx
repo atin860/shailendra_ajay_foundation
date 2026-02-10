@@ -50,6 +50,22 @@ const AboutPage = () => {
                 </div>
             </section>
 
+            {/* Documentation Images Section */}
+            <section className="documentation-section">
+                <div className="documentation-header">
+                    <h2>Our Journey in Pictures</h2>
+                    <div className="title-divider"></div>
+                </div>
+
+                <div className="documentation-grid">
+                    {documentationImages.map((image, index) => (
+                        <div key={index} className="doc-image-wrapper">
+                            <img src={image} alt={`Documentation ${index + 1}`} className="doc-img" />
+                        </div>
+                    ))}
+                </div>
+            </section>
+
             {/* Team Section */}
             <section className="team-section">
                 <div className="team-header-container">
@@ -130,6 +146,14 @@ const boardMembers = [
         image: "Soni.jpg",
         thought: "We believe that true change happens when people come together for a cause. Your generous contribution helps us bring hope, care, and support to those who need it most."
     }
+];
+
+// Documentation Images Array
+const documentationImages = [
+    "Documentation 1.jpeg",
+    "Documentation 2.jpeg",
+    "Documentation 3.jpeg",
+    "Documentation 4.jpeg"
 ];
 
 export default AboutPage;
