@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Heart, CheckCircle, Loader } from 'lucide-react';
+import { X, Heart, CheckCircle, Loader, Download, Share2 } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas'; // Import html2canvas
 import './DonationModal.css';
 
 const DonationModal = ({ isOpen, onClose }) => {
@@ -10,6 +12,8 @@ const DonationModal = ({ isOpen, onClose }) => {
     const [customAmount, setCustomAmount] = useState('');
     const [isProcessing, setIsProcessing] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
+    const [paymentData, setPaymentData] = useState(null); // Store payment response
+    const invoiceRef = useRef(null); // Reference for PDF generation
 
     const [donorDetails, setDonorDetails] = useState({
         name: '',
@@ -49,6 +53,7 @@ const DonationModal = ({ isOpen, onClose }) => {
         setSelectedAmount(null);
         setCustomAmount('');
         setShowSuccess(false);
+        setPaymentData(null);
         onClose();
     };
 
@@ -107,9 +112,9 @@ const DonationModal = ({ isOpen, onClose }) => {
             }
 
             // In production, create order from backend
-            // For now, using test mode
+            // For now, using keys from env
             const options = {
-                key: 'rzp_test_YOUR_KEY_HERE', // Replace with your Razorpay key
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Use env variable
                 amount: amount * 100, // Amount in paise
                 currency: 'INR',
                 name: 'SHAILENDRA KUMAR AJAY FOUNDATION',
@@ -118,15 +123,11 @@ const DonationModal = ({ isOpen, onClose }) => {
                 handler: function (response) {
                     // Payment successful
                     console.log('Payment Success:', response);
+                    setPaymentData({ ...response, date: new Date().toLocaleDateString() }); // Store response with date
                     setIsProcessing(false);
                     setShowSuccess(true);
-
-                    // Send to backend for verification and receipt
-                    // sendPaymentToBackend(response);
-
-                    setTimeout(() => {
-                        handleClose();
-                    }, 5000);
+                    
+                    // No auto-close so user can download invoice
                 },
                 prefill: {
                     name: donorDetails.name,
@@ -155,6 +156,24 @@ const DonationModal = ({ isOpen, onClose }) => {
             console.error('Payment Error:', error);
             alert('Payment failed. Please try again.');
             setIsProcessing(false);
+        }
+    };
+
+    const downloadInvoice = async () => {
+        if (!invoiceRef.current) return;
+
+        try {
+            const canvas = await html2canvas(invoiceRef.current, { scale: 2 });
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save(`Donation_Receipt_${paymentData?.razorpay_payment_id || 'ID'}.pdf`);
+        } catch (error) {
+            console.error("Error generating invoice:", error);
+            alert("Could not generate invoice. Please try again.");
         }
     };
 
@@ -387,43 +406,82 @@ const DonationModal = ({ isOpen, onClose }) => {
                                 )}
                             </div>
                         ) : (
-                            /* Success Screen */
-                            <motion.div
-                                className="success-screen"
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                            >
-                                <motion.div
-                                    className="success-icon"
-                                    initial={{ scale: 0, rotate: -180 }}
-                                    animate={{ scale: 1, rotate: 0 }}
-                                    transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                                >
-                                    <CheckCircle size={80} color="#4a7c2c" />
-                                </motion.div>
-                                <motion.h2
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.3 }}
-                                >
-                                    Thank You! 🎉
-                                </motion.h2>
-                                <motion.p
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: 0.5 }}
-                                >
-                                    Your donation of <strong>₹{getFinalAmount().toLocaleString()}</strong> has been received.
-                                </motion.p>
-                                <motion.p
-                                    className="success-message"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.7 }}
-                                >
-                                    A receipt has been sent to your email.
-                                </motion.p>
-                            </motion.div>
+                            /* Success Screen with Invoice */
+                            <div className="bg-white rounded-3xl overflow-hidden pb-4">
+                                <div ref={invoiceRef} className="invoice-wrapper">
+                                    <div className="invoice-header-row">
+                                        <div className="invoice-brand">
+                                            <h2>SHAILENDRA KUMAR<br/>AJAY FOUNDATION</h2>
+                                            <p>Non-Profit Organization</p>
+                                        </div>
+                                        <div className="invoice-meta">
+                                            <div className="invoice-title">RECEIPT</div>
+                                            <div className="invoice-date">Date: {paymentData?.date || new Date().toLocaleDateString()}</div>
+                                            <div className="invoice-date">ID: {paymentData?.razorpay_payment_id || 'UNKNOWN'}</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="invoice-details-grid">
+                                        <div className="detail-group">
+                                            <h4>Receipt To:</h4>
+                                            <p className="highlight">{donorDetails.name}</p>
+                                            <p>{donorDetails.email}</p>
+                                            <p>{donorDetails.phone}</p>
+                                        </div>
+                                        <div className="detail-group">
+                                            <h4>Payment Method:</h4>
+                                            <p className="highlight">Online Donation (Razorpay)</p>
+                                            <p>Status: Success</p>
+                                        </div>
+                                    </div>
+
+                                    <table className="invoice-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th className="amount-col">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    {donationType === 'monthly' ? 'Monthly Donation' : 'One-time Donation'}
+                                                    {donorDetails.isDedicated && donorDetails.dedicationMessage && (
+                                                        <div className="text-xs text-gray-500 mt-1">Dedication: {donorDetails.dedicationMessage}</div>
+                                                    )}
+                                                </td>
+                                                <td className="amount-col">₹{getFinalAmount().toLocaleString()}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div className="invoice-total-row">
+                                        <span className="total-label">Total Amount:</span>
+                                        <span className="total-amount">₹{getFinalAmount().toLocaleString()}</span>
+                                    </div>
+
+                                    <p className="invoice-footer-note">
+                                        Thank you for your generous support! Your contribution makes a real difference.
+                                        This is a computer-generated receipt.
+                                    </p>
+                                </div>
+
+                                <div className="invoice-actions">
+                                    <button 
+                                        className="close-text-btn"
+                                        onClick={handleClose}
+                                    >
+                                        Close
+                                    </button>
+                                    <button 
+                                        className="download-btn"
+                                        onClick={downloadInvoice}
+                                    >
+                                        <Download size={18} />
+                                        Download Receipt
+                                    </button>
+                                </div>
+                            </div>
                         )}
                     </motion.div>
                 </>
