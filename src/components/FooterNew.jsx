@@ -349,7 +349,7 @@ const FooterNew = () => {
                                 </ul>
                             </AccordionSection>
                             <div className="mt-8 p-6 bg-white/5 rounded-xl border border-white/10">
-                                <h4 className="text-lg font-bold mb-2">Help Us Grow</h4>
+                                <h4 className="text-lg font-bold mb-2 text-white">Help Us Grow</h4>
                                 <p className="text-white/70 mb-4 text-sm">Your contribution can make a difference.</p>
                                 <Link to="/donate" className="block w-full text-center py-3 bg-secondary-500 text-primary-900 font-bold rounded-lg">
                                     Donate Now

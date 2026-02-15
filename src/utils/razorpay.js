@@ -1,8 +1,8 @@
-// Razorpay Utility Functions - Production Ready
-// Handles all Razorpay payment operations
+// Razorpay Utility Functions - Vercel Serverless Compatible
+// Handles all Razorpay payment operations using Vercel API routes
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5001';
-const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
+// Get Razorpay Key from environment variable
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SGJ3eStZh062Hy';
 
 /**
  * Load Razorpay checkout script dynamically
@@ -35,22 +35,18 @@ export const loadRazorpayScript = () => {
 };
 
 /**
- * Create Razorpay order via backend
+ * Create Razorpay order via Vercel serverless function
  * @param {number} amount - Amount in rupees
- * @param {object} donorDetails - Donor information
  * @returns {Promise<object>} Order details
  */
-export const createRazorpayOrder = async (amount, donorDetails) => {
+export const createRazorpayOrder = async (amount) => {
     try {
-        const response = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
+        const response = await fetch('/api/create-order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                amount,
-                donorDetails
-            }),
+            body: JSON.stringify({ amount }),
         });
 
         const data = await response.json();
@@ -62,38 +58,6 @@ export const createRazorpayOrder = async (amount, donorDetails) => {
         return data;
     } catch (error) {
         console.error('❌ Order creation error:', error);
-        throw error;
-    }
-};
-
-/**
- * Verify payment signature via backend
- * @param {object} paymentData - Payment response from Razorpay
- * @param {object} donorDetails - Donor information
- * @returns {Promise<object>} Verification result
- */
-export const verifyPayment = async (paymentData, donorDetails) => {
-    try {
-        const response = await fetch(`${BACKEND_URL}/api/payment/verify`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                ...paymentData,
-                donorDetails
-            }),
-        });
-
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.message || 'Payment verification failed');
-        }
-
-        return data;
-    } catch (error) {
-        console.error('❌ Payment verification error:', error);
         throw error;
     }
 };
@@ -134,8 +98,8 @@ export const processRazorpayPayment = async (options) => {
             throw new Error('Failed to load payment gateway. Please check your internet connection.');
         }
 
-        // Step 3: Create order via backend
-        const orderData = await createRazorpayOrder(amount, donorDetails);
+        // Step 3: Create order via Vercel serverless function
+        const orderData = await createRazorpayOrder(amount);
 
         // Step 4: Configure Razorpay options
         const razorpayOptions = {
@@ -161,23 +125,28 @@ export const processRazorpayPayment = async (options) => {
             },
             handler: async function (response) {
                 try {
-                    // Step 5: Verify payment signature
-                    const verificationResult = await verifyPayment({
-                        razorpay_order_id: response.razorpay_order_id,
-                        razorpay_payment_id: response.razorpay_payment_id,
-                        razorpay_signature: response.razorpay_signature
-                    }, {
-                        ...donorDetails,
-                        amount
-                    });
+                    // Payment successful
+                    console.log('✅ Payment successful!');
+                    console.log('Payment ID:', response.razorpay_payment_id);
+                    console.log('Order ID:', response.razorpay_order_id);
+                    console.log('Signature:', response.razorpay_signature);
 
-                    console.log('✅ Payment successful:', verificationResult);
+                    // Show success alert
+                    alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
 
+                    // Call success callback with payment details
                     if (onSuccess) {
-                        onSuccess(verificationResult);
+                        onSuccess({
+                            success: true,
+                            payment_id: response.razorpay_payment_id,
+                            order_id: response.razorpay_order_id,
+                            signature: response.razorpay_signature,
+                            amount: amount,
+                            donorDetails: donorDetails
+                        });
                     }
                 } catch (err) {
-                    console.error('❌ Payment verification failed:', err);
+                    console.error('❌ Error in payment handler:', err);
                     if (onFailure) {
                         onFailure(err);
                     }
@@ -193,7 +162,7 @@ export const processRazorpayPayment = async (options) => {
             }
         };
 
-        // Step 6: Open Razorpay checkout
+        // Step 5: Open Razorpay checkout
         const razorpay = new window.Razorpay(razorpayOptions);
         razorpay.open();
 
@@ -205,23 +174,3 @@ export const processRazorpayPayment = async (options) => {
     }
 };
 
-/**
- * Fetch payment status (for admin/verification)
- * @param {string} paymentId - Razorpay payment ID
- * @returns {Promise<object>} Payment details
- */
-export const getPaymentStatus = async (paymentId) => {
-    try {
-        const response = await fetch(`${BACKEND_URL}/api/payment/status/${paymentId}`);
-        const data = await response.json();
-
-        if (!data.success) {
-            throw new Error(data.message || 'Failed to fetch payment status');
-        }
-
-        return data.payment;
-    } catch (error) {
-        console.error('❌ Payment status fetch error:', error);
-        throw error;
-    }
-};

@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Loader, CheckCircle, XCircle } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Loader, CheckCircle, XCircle, Download } from 'lucide-react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { processRazorpayPayment } from '../utils/razorpay';
 
 const DonationForm = ({ onScrollToQr }) => {
@@ -11,6 +13,7 @@ const DonationForm = ({ onScrollToQr }) => {
     const [showError, setShowError] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [paymentDetails, setPaymentDetails] = useState(null);
+    const invoiceRef = useRef(null);
     
     // Donor Details State
     const [donorDetails, setDonorDetails] = useState({
@@ -98,10 +101,10 @@ const DonationForm = ({ onScrollToQr }) => {
                     setPaymentDetails(result);
                     setShowSuccess(true);
                     
-                    // Reset form after 3 seconds
-                    setTimeout(() => {
-                        resetForm();
-                    }, 5000);
+                    // Do not auto-close form, let user download invoice
+                    // setTimeout(() => {
+                    //    resetForm();
+                    // }, 5000);
                 },
                 onFailure: (error) => {
                     console.error('❌ Payment failed:', error);
@@ -139,30 +142,112 @@ const DonationForm = ({ onScrollToQr }) => {
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 relative">
             <h2 className="text-xl font-bold text-gray-800 mb-4">Make a Donation</h2>
 
-            {/* Success Modal */}
+            {/* Success Modal (Invoice) */}
             {showSuccess && (
-                <div className="absolute inset-0 bg-white rounded-2xl z-50 flex items-center justify-center p-6">
-                    <div className="text-center">
-                        <div className="mb-4 flex justify-center">
-                            <CheckCircle className="w-16 h-16 text-green-500" />
+                <div className="absolute inset-0 bg-white z-50 overflow-y-auto rounded-2xl">
+                    <div ref={invoiceRef} className="invoice-wrapper border-0">
+                        <div className="invoice-header-row">
+                            <div className="invoice-brand">
+                                <h2>SHAILENDRA KUMAR<br/>AJAY FOUNDATION</h2>
+                                <p>Non-Profit Organization</p>
+                            </div>
+                            <div className="invoice-meta">
+                                <div className="invoice-title">RECEIPT</div>
+                                <div className="invoice-date">Date: {new Date().toLocaleDateString()}</div>
+                                <div className="invoice-date">ID: {paymentDetails?.payment_id || 'PROCESSING'}</div>
+                            </div>
                         </div>
-                        <h3 className="text-2xl font-bold text-gray-800 mb-2">Thank You!</h3>
-                        <p className="text-gray-600 mb-4">
-                            Your donation of <strong>₹{getFinalAmount()}</strong> was successful!
+
+                        <div className="invoice-details-grid">
+                            <div className="detail-group">
+                                <h4>Receipt To:</h4>
+                                <p className="highlight">{donorDetails.name}</p>
+                                <p>{donorDetails.email}</p>
+                                <p>{donorDetails.phone}</p>
+                            </div>
+                            <div className="detail-group">
+                                <h4>Payment Method:</h4>
+                                <p className="highlight">Online Donation (Razorpay)</p>
+                                <p>Status: Success</p>
+                            </div>
+                        </div>
+
+                        <table className="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th className="amount-col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        {donationType === 'monthly' ? 'Monthly Donation' : 'One-time Donation'}
+                                        {donorDetails.isDedicated && donorDetails.dedicationMessage && (
+                                            <div className="text-xs text-gray-500 mt-1">Dedication: {donorDetails.dedicationMessage}</div>
+                                        )}
+                                    </td>
+                                    <td className="amount-col">₹{getFinalAmount().toLocaleString()}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div className="invoice-total-row">
+                            <span className="total-label">Total Amount:</span>
+                            <span className="total-amount">₹{getFinalAmount().toLocaleString()}</span>
+                        </div>
+
+                        <p className="invoice-footer-note">
+                            Thank you for your generous support! Your contribution makes a real difference.
+                            This is a computer-generated receipt.
                         </p>
-                        {paymentDetails && (
-                            <p className="text-sm text-gray-500 mb-4">
-                                Payment ID: {paymentDetails.payment_id}
-                            </p>
-                        )}
-                        <p className="text-sm text-gray-600">
-                            You will receive a confirmation email shortly.
-                        </p>
-                        <button
+                    </div>
+
+                    <div className="invoice-actions sticky bottom-0 bg-white border-t p-4 shadow-lg">
+                        <button 
+                            className="close-text-btn"
                             onClick={resetForm}
-                            className="mt-6 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                         >
-                            Make Another Donation
+                            Close
+                        </button>
+                        <button 
+                            className="download-btn"
+                            onClick={async (e) => {
+                                if (!invoiceRef.current) return;
+                                
+                                const btn = e.currentTarget;
+                                const originalText = btn.innerText;
+                                btn.innerText = 'Downloading...';
+                                btn.disabled = true;
+
+                                try {
+                                    const canvas = await html2canvas(invoiceRef.current, { 
+                                        scale: 2,
+                                        useCORS: true,
+                                        backgroundColor: '#ffffff',
+                                        logging: false,
+                                        width: invoiceRef.current.scrollWidth,
+                                        height: invoiceRef.current.scrollHeight
+                                    });
+                                    
+                                    const imgData = canvas.toDataURL('image/png');
+                                    const pdf = new jsPDF('p', 'mm', 'a4');
+                                    const pdfWidth = pdf.internal.pageSize.getWidth();
+                                    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+                                    
+                                    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                                    pdf.save(`Donation_Receipt_${paymentDetails?.payment_id || 'ID'}.pdf`);
+                                } catch (error) {
+                                    console.error("Error generating invoice:", error);
+                                    alert("Could not generate invoice. Please try again.\n" + error.message);
+                                } finally {
+                                    btn.innerText = 'Download Receipt'; // Simple text fallback
+                                    btn.disabled = false;
+                                }
+                            }}
+                        >
+                            <Download size={18} />
+                            Download Receipt
                         </button>
                     </div>
                 </div>

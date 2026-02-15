@@ -6,12 +6,10 @@ import UpiQrCard from '../components/UpiQrCard';
 import './DonatePage.css'; // Keeping for any global styles if needed, but overriding most with Tailwind
 
 const DonatePage = () => {
-    const formRef = useRef(null);
+
     const qrRef = useRef(null);
 
-    const scrollToForm = () => {
-        formRef.current?.scrollIntoView({ behavior: 'smooth' });
-    };
+
 
     const scrollToQr = () => {
         qrRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -45,8 +43,8 @@ const DonatePage = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="lg:col-span-7 order-2 lg:order-1"
-                        ref={formRef}
+                        className="lg:col-span-7 order-1"
+
                     >
                         <DonationForm onScrollToQr={scrollToQr} />
                     </motion.div>
@@ -56,7 +54,7 @@ const DonatePage = () => {
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 }}
-                        className="lg:col-span-5 order-1 lg:order-2 space-y-6"
+                        className="lg:col-span-5 order-2 space-y-6"
                         ref={qrRef}
                     >
                         <div className="sticky top-24">
@@ -77,17 +75,7 @@ const DonatePage = () => {
                 </div>
 
                 {/* Mobile Sticky Button - Scrolls to Form */}
-                <div className="lg:hidden fixed bottom-4 left-4 right-4 z-50">
-                    <button 
-                        onClick={scrollToForm}
-                        className="w-full bg-gray-900 text-white font-bold py-4 rounded-xl shadow-2xl flex items-center justify-center gap-2 transform active:scale-95 transition-transform"
-                    >
-                        <span>Donate Now</span>
-                        <svg className="w-5 h-5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                    </button>
-                </div>
+
             </div>
         </div>
     );
