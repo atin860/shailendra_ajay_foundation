@@ -6,12 +6,21 @@ import { useNavigate } from 'react-router-dom';
 const HeroSectionScroll = () => {
     const navigate = useNavigate();
 
+    const [bgImage, cardImage] = React.useMemo(() => {
+        const img1 = Math.floor(Math.random() * 10) + 1;
+        let img2 = Math.floor(Math.random() * 10) + 1;
+        while (img1 === img2) {
+            img2 = Math.floor(Math.random() * 10) + 1;
+        }
+        return [`/event_${img1}.jpeg`, `/event_${img2}.jpeg`];
+    }, []);
+
     return (
         <section className="relative min-h-[85vh] flex items-center bg-gray-900 text-white overflow-hidden pt-20 pb-16">
             {/* Background Image & Overlay */}
             <div className="absolute inset-0 z-0 select-none pointer-events-none">
                 <img 
-                    src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" 
+                    src={bgImage} 
                     alt="Background" 
                     className="w-full h-full object-cover opacity-30"
                 />
@@ -34,7 +43,7 @@ const HeroSectionScroll = () => {
                     </div>
 
                     {/* Headline */}
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight color-white text-white">
                         Empowering Future <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
                             Through Education
@@ -91,13 +100,13 @@ const HeroSectionScroll = () => {
                     {/* Floating Card Design */}
                     <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-gray-800/50 backdrop-blur-md p-2">
                         <img 
-                            src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                            src={cardImage} 
                             alt="Children Learning" 
-                            className="rounded-xl w-full h-full object-cover"
+                            className="rounded-xl w-full h-auto object-cover"
                         />
                         
                         {/* Floating Badge */}
-                        <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg flex items-center gap-4">
+                        <div className="bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg flex items-center gap-4 mt-2">
                             <div className="bg-green-100 p-3 rounded-full text-green-600">
                                 <Heart className="fill-current w-6 h-6" />
                             </div>

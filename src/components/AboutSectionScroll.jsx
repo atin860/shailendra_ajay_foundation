@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 const AboutSectionScroll = () => {
     const navigate = useNavigate();
     
+    const eventImage = React.useMemo(() => `/event_${Math.floor(Math.random() * 10) + 1}.jpeg`, []);
+
     return (
         <section id="about" className="py-20 bg-white overflow-hidden">
             <div className="container-custom">
@@ -21,7 +23,7 @@ const AboutSectionScroll = () => {
                     >
                         <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
                             <img 
-                                src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800&q=80" 
+                                 src={eventImage}
                                 alt="About Us" 
                                 className="w-full h-full object-cover"
                             />
