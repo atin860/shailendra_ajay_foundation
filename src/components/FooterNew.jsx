@@ -7,12 +7,29 @@ import {
     Phone,
     Mail,
     Facebook,
-    Twitter,
-    Instagram,
-    Linkedin,
+    Youtube,
     Lock,
     Heart
 } from 'lucide-react';
+
+// Custom Threads Icon as it might not be in Lucide
+const ThreadsIcon = ({ size = 20, className }) => (
+    <svg 
+        width={size} 
+        height={size} 
+        viewBox="0 0 24 24" 
+        fill="none" 
+        stroke="currentColor" 
+        strokeWidth="2" 
+        strokeLinecap="round" 
+        strokeLinejoin="round" 
+        className={className}
+    >
+        <path d="M19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7 3.13-7 7-7 7 3.13 7 7v1" />
+        <path d="M21.5 12h-2.5a2 2 0 0 1-1.6-.8l-.4-.6a4 4 0 1 0 0 5.6" />
+        <path d="M12 7v.01" />
+    </svg>
+);
 
 const FooterNew = () => {
     const currentYear = new Date().getFullYear();
@@ -204,8 +221,18 @@ const FooterNew = () => {
                             Empowering children through education and healthcare, creating lasting change in communities across India.
                         </p>
                         <div className="flex gap-4">
-                            {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
-                                <a key={i} href="#" className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-secondary-500 hover:text-primary-900 transition-all hover:-translate-y-1">
+                            {[
+                                { Icon: Youtube, href: "https://youtube.com/@shailendrakumarajayfoundation?si=PmVLvp52Ld2_6RsD" },
+                                { Icon: Facebook, href: "https://www.facebook.com/share/18JDWpWVUv/" },
+                                { Icon: ThreadsIcon, href: "https://www.threads.net/@shailendra_kumar_ajay_foundati" }
+                            ].map(({ Icon, href }, i) => (
+                                <a 
+                                    key={i} 
+                                    href={href} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer"
+                                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-secondary-500 hover:text-primary-900 transition-all hover:-translate-y-1"
+                                >
                                     <Icon size={20} />
                                 </a>
                             ))}

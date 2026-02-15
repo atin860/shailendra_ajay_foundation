@@ -1,151 +1,127 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, BookOpen, Users, Lock, ArrowRight } from 'lucide-react';
+import { Heart, Play, BarChart, Users, BookOpen } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const HeroSectionScroll = () => {
     const navigate = useNavigate();
 
-    const handleDonateClick = () => {
-        navigate('/donate');
-    };
+    const [bgImage, cardImage] = React.useMemo(() => {
+        const img1 = Math.floor(Math.random() * 10) + 1;
+        let img2 = Math.floor(Math.random() * 10) + 1;
+        while (img1 === img2) {
+            img2 = Math.floor(Math.random() * 10) + 1;
+        }
+        return [`/event_${img1}.jpeg`, `/event_${img2}.jpeg`];
+    }, []);
 
     return (
-        <section id="home" className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 via-primary-950 to-primary-900 overflow-hidden pt-20">
-            {/* Background Pattern */}
-            <div className="absolute inset-0 z-0">
-                <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-primary-950/50 to-primary-900/90"></div>
+        <section className="relative min-h-[85vh] flex items-center bg-gray-900 text-white overflow-hidden pt-20 pb-16">
+            {/* Background Image & Overlay */}
+            <div className="absolute inset-0 z-0 select-none pointer-events-none">
+                <img 
+                    src={bgImage} 
+                    alt="Background" 
+                    className="w-full h-full object-cover opacity-30"
+                />
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/95 to-transparent"></div>
             </div>
-            
-            <div className="container-custom relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center w-full py-10">
-                {/* Left Content */}
-                <motion.div
-                    className="text-center lg:text-left text-white"
-                    initial={{ opacity: 0, x: -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.8, ease: 'easeOut' }}
+
+            <div className="container-custom relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                {/* Left Content Column */}
+                <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="lg:col-span-7 space-y-8"
                 >
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 mb-6 mx-auto lg:mx-0"
-                    >
-                        <Heart size={14} className="text-secondary-400 fill-current" />
-                        <span className="text-sm font-semibold text-secondary-100">Changing Lives Since 2020</span>
-                    </motion.div>
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 rounded-full px-4 py-1.5 backdrop-blur-sm">
+                        <span className="flex h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
+                        <span className="text-xs font-semibold text-indigo-200 tracking-wide uppercase">Non-Profit Organization</span>
+                    </div>
 
-                 <motion.h1
-  className="text-4xl md:text-5xl lg:text-7xl font-bold leading-tight mb-6 text-white"
-  initial={{ opacity: 0, y: 30 }}
-  animate={{ opacity: 1, y: 0 }}
-  transition={{ delay: 0.3, duration: 0.8 }}
->
-  Empowering Through
-  <span className="block text-transparent bg-clip-text bg-gradient-to-r from-secondary-400 to-secondary-500 mt-2">
-    Education
-  </span>
-</motion.h1>
+                    {/* Headline */}
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight color-white text-white">
+                        Empowering Future <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-orange-500">
+                            Through Education
+                        </span>
+                    </h1>
 
+                    {/* Subheadline */}
+                    <p className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed">
+                        Join us in our mission to provide books, resources, and hope to underprivileged children. 
+                        We believe every child deserves a chance to learn and grow.
+                    </p>
 
-                    <motion.p
-                        className="text-lg md:text-xl text-primary-100 mb-8 leading-relaxed max-w-2xl mx-auto lg:mx-0"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5, duration: 0.8 }}
-                    >
-                        Join us in our mission to provide books and educational resources to underprivileged children.
-                        Every donation brings hope and knowledge to those who need it most.
-                    </motion.p>
-
-                    <motion.div
-                        className="grid grid-cols-3 gap-4 mb-10 max-w-lg mx-auto lg:mx-0"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.7, duration: 0.8 }}
-                    >
-                        <div className="text-center lg:text-left">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white">50k+</h3>
-                            <p className="text-sm text-primary-200">Books Donated</p>
-                        </div>
-                        <div className="text-center lg:text-left border-l border-white/10 pl-4">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white">10k+</h3>
-                            <p className="text-sm text-primary-200">Children Helped</p>
-                        </div>
-                        <div className="text-center lg:text-left border-l border-white/10 pl-4">
-                            <h3 className="text-2xl md:text-3xl font-bold text-white">500+</h3>
-                            <p className="text-sm text-primary-200">Volunteers</p>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.9, duration: 0.8 }}
-                    >
-                        <motion.button
-                            className="bg-white/10 hover:bg-white/20 text-white border border-white/30 px-8 py-4 rounded-xl font-bold backdrop-blur-sm transition-all flex items-center justify-center gap-2"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
+                    {/* Actions */}
+                    <div className="flex flex-wrap gap-4 pt-2">
+                        <button 
+                            onClick={() => navigate('/donate')}
+                            className="btn bg-indigo-600 hover:bg-indigo-700 text-white shadow-lg shadow-indigo-500/30 border border-transparent"
                         >
-                            Learn More
-                        </motion.button>
-                        <motion.button
-                            className="bg-trasparent text-white/80 hover:text-white px-8 py-4 rounded-xl font-bold transition-all flex items-center justify-center gap-2"
-                            whileHover={{ x: 5 }}
+                            DONATE NOW
+                        </button>
+                        <button 
+                            onClick={() => navigate('/about')}
+                            className="btn bg-white/5 hover:bg-white/10 text-white border border-white/10 backdrop-blur-sm"
                         >
-                            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
-                                <span className="text-lg">▶</span>
-                            </div>
-                            Watch Video
-                        </motion.button>
-                    </motion.div>
+                            <Play size={16} className="mr-2 fill-current" />
+                            How We Work
+                        </button>
+                    </div>
+
+                    {/* Stats Row */}
+                    <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10 mt-8">
+                        <div>
+                            <h4 className="text-3xl font-bold text-white mb-1">50k+</h4>
+                            <p className="text-sm text-gray-400 font-medium">Books Donated</p>
+                        </div>
+                        <div>
+                            <h4 className="text-3xl font-bold text-white mb-1">10k+</h4>
+                            <p className="text-sm text-gray-400 font-medium">Lives Impacted</p>
+                        </div>
+                        <div>
+                            <h4 className="text-3xl font-bold text-white mb-1">100%</h4>
+                            <p className="text-sm text-gray-400 font-medium">Transparent</p>
+                        </div>
+                    </div>
                 </motion.div>
 
-                {/* Right CTA Card */}
-                <motion.div
-                    className="relative hidden lg:block"
-                    initial={{ opacity: 0, x: 100 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 1, delay: 0.4, ease: 'easeOut' }}
+                {/* Right Image/Card Column */}
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="hidden lg:block lg:col-span-5 relative"
                 >
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-secondary-500/20 blur-[100px] rounded-full pointer-events-none"></div>
-                    
-                    <motion.div
-                        className="relative bg-white/10 backdrop-blur-xl border border-white/20 p-8 rounded-3xl shadow-2xl text-center"
-                        whileHover={{ y: -10 }}
-                        transition={{ duration: 0.3 }}
-                    >
-                        <motion.div
-                            className="w-24 h-24 bg-gradient-to-br from-secondary-400 to-secondary-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-secondary-500/30"
-                            animate={{ scale: [1, 1.05, 1] }}
-                            transition={{ duration: 2, repeat: Infinity }}
-                        >
-                            <Heart size={40} className="text-white fill-current" />
-                        </motion.div>
-
-                        <h2 className="text-3xl font-bold text-white mb-2">Make a Difference</h2>
-                        <p className="text-primary-100 mb-8">
-                            Your contribution provides books and hope to children who need it most.
-                        </p>
-
-                        <motion.button
-                            className="w-full bg-gradient-to-r from-secondary-400 to-secondary-500 text-primary-900 py-4 rounded-xl font-bold shadow-xl hover:shadow-2xl hover:shadow-secondary-500/20 transition-all flex items-center justify-center gap-2 text-lg"
-                            onClick={handleDonateClick}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                        >
-                            Donate Now
-                            <ArrowRight size={20} />
-                        </motion.button>
-
-                        <div className="mt-6 flex items-center justify-center gap-2 text-primary-200 text-sm">
-                            <Lock size={14} />
-                            <span>Secure & Tax Deductible</span>
+                    {/* Floating Card Design */}
+                    <div className="relative rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-gray-800/50 backdrop-blur-md p-2">
+                        <img 
+                            src={cardImage} 
+                            alt="Children Learning" 
+                            className="rounded-xl w-full h-auto object-cover"
+                        />
+                        
+                        {/* Floating Badge */}
+                        <div className="bg-white/95 backdrop-blur-md p-4 rounded-xl shadow-lg flex items-center gap-4 mt-2">
+                            <div className="bg-green-100 p-3 rounded-full text-green-600">
+                                <Heart className="fill-current w-6 h-6" />
+                            </div>
+                            <div>
+                                <p className="text-gray-900 font-bold text-sm">Your Impact Matters!</p>
+                                <p className="text-gray-500 text-xs mt-0.5">Help us reach more children today.</p>
+                            </div>
+                            <button 
+                                onClick={() => navigate('/donate')}
+                                className="ml-auto text-indigo-600 font-bold text-sm hover:underline"
+                            >
+                                Donate →
+                            </button>
                         </div>
-                    </motion.div>
+                    </div>
                 </motion.div>
             </div>
         </section>

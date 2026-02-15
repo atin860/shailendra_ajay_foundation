@@ -1,147 +1,102 @@
-import React, { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { BookOpen, GraduationCap, Users, Heart } from 'lucide-react';
-import './ProgramsSectionScroll.css';
+import React from 'react';
+import { motion } from 'framer-motion';
+import { BookOpen, GraduationCap, Users, Heart, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const ProgramsSectionScroll = () => {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true, amount: 0.2 });
+    const navigate = useNavigate();
 
     const programs = [
         {
             icon: BookOpen,
-            title: 'Book Donation Drive',
-            description: 'Collecting and distributing books to children in underserved communities across India.',
-            stats: '25,000+ books distributed',
-            color: '#2d5016'
+            title: 'Book Donation',
+            description: 'Distributing books to underserved communities across India.',
+            stats: '25k+ Books',
+            color: 'bg-emerald-100 text-emerald-600'
         },
         {
             icon: GraduationCap,
-            title: 'Education Support',
-            description: 'Providing scholarships, tutoring, and educational materials to help children succeed.',
-            stats: '5,000+ students supported',
-            color: '#3d6b1f'
+            title: 'Scholarships',
+            description: ' providing educational materials to help children succeed.',
+            stats: '5k+ Students',
+            color: 'bg-blue-100 text-blue-600'
         },
         {
             icon: Users,
-            title: 'Community Outreach',
-            description: 'Building libraries and learning centers in rural areas to promote literacy and learning.',
-            stats: '50+ libraries established',
-            color: '#4d7b2f'
+            title: 'Community',
+            description: 'Building libraries and learning centers in rural areas.',
+            stats: '50+ Libraries',
+            color: 'bg-amber-100 text-amber-600'
         },
         {
             icon: Heart,
-            title: 'Mentorship Program',
-            description: 'Connecting volunteers with students to provide guidance, support, and inspiration.',
-            stats: '1,000+ mentor matches',
-            color: '#2d5016'
+            title: 'Mentorship',
+            description: 'Connecting volunteers with students for guidance.',
+            stats: '1k+ Mentors',
+            color: 'bg-rose-100 text-rose-600'
         }
     ];
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.15,
-                delayChildren: 0.1
-            }
-        }
-    };
-
-    const cardVariants = {
-        hidden: { opacity: 0, y: 60 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: 'easeOut' }
-        }
-    };
-
     return (
-        <section id="programs" className="programs-section-scroll" ref={ref}>
-            <div className="programs-container">
+        <section id="programs" className="py-16 md:py-24 bg-white">
+            <div className="container-custom">
                 {/* Section Header */}
-                <motion.div
-                    className="section-header"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6 }}
-                >
-                    <span className="section-tag">What We Do</span>
-                    <h2 className="section-title">Our Programs</h2>
-                    <div className="title-underline"></div>
-                    <p className="section-description">
+                <div className="text-center max-w-3xl mx-auto mb-16">
+                    <span className="text-indigo-600 font-bold text-sm tracking-wide uppercase mb-2 block">What We Do</span>
+                    <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Our Key Programs</h2>
+                    <p className="text-gray-600 text-lg leading-relaxed">
                         We run multiple initiatives to ensure every child has access to quality education and learning resources.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Programs Grid */}
-                <motion.div
-                    className="programs-grid"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                >
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                     {programs.map((program, index) => (
                         <motion.div
                             key={index}
-                            className="program-card"
-                            variants={cardVariants}
-                            whileHover={{
-                                y: -10,
-                                boxShadow: '0 20px 50px rgba(45, 80, 22, 0.2)'
-                            }}
+                            className="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-gray-200 shadow-sm hover:shadow-premium transition-all duration-300 flex flex-col items-start"
+                            whileHover={{ y: -5 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: index * 0.1 }}
                         >
-                            <div className="program-icon-wrapper" style={{ backgroundColor: program.color }}>
-                                <program.icon size={40} className="program-icon" />
+                            <div className={`p-3 rounded-xl mb-6 ${program.color} transition-colors`}>
+                                <program.icon size={24} className="stroke-[2.5px]" />
                             </div>
 
-                            <h3 className="program-title">{program.title}</h3>
-                            <p className="program-description">{program.description}</p>
+                            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                                {program.title}
+                            </h3>
+                            
+                            <p className="text-gray-600 text-sm leading-relaxed mb-6 flex-grow">
+                                {program.description}
+                            </p>
 
-                            <div className="program-stats">
-                                <span className="stats-icon">📊</span>
-                                <span className="stats-text">{program.stats}</span>
+                            <div className="mt-auto w-full pt-4 border-t border-gray-100 flex items-center justify-between">
+                                <span className="text-xs font-semibold text-gray-500 bg-gray-50 px-2 py-1 rounded-md">
+                                    {program.stats}
+                                </span>
+                                <button className="text-indigo-600 hover:text-indigo-700 p-1.5 rounded-full hover:bg-indigo-50 transition-colors">
+                                    <ArrowRight size={16} />
+                                </button>
                             </div>
-
-                            <motion.button
-                                className="program-learn-more"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                Learn More →
-                            </motion.button>
                         </motion.div>
                     ))}
-                </motion.div>
+                </div>
 
-                {/* Call to Action */}
-                <motion.div
-                    className="programs-cta"
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                    transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                    <h3>Want to support our programs?</h3>
-                    <p>Your contribution can make a real difference in a child's life.</p>
-                    <div className="cta-buttons">
-                        <motion.button
-                            className="cta-donate"
-                            whileHover={{ scale: 1.05, boxShadow: '0 0 25px rgba(255, 215, 0, 0.5)' }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Donate Now
-                        </motion.button>
-                        <motion.button
-                            className="cta-volunteer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            Become a Volunteer
-                        </motion.button>
-                    </div>
-                </motion.div>
+                {/* Bottom CTA */}
+                <div className="mt-16 text-center">
+                    <button 
+                        onClick={() => navigate('/donate')}
+                        className="btn-primary rounded-full px-8 py-3 text-sm font-bold shadow-lg shadow-indigo-200"
+                    >
+                        Support Our Mission
+                    </button>
+                    <p className="mt-4 text-xs text-gray-400">
+                        Join over 500+ donors making a difference.
+                    </p>
+                </div>
             </div>
         </section>
     );

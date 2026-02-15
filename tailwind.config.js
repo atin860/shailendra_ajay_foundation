@@ -34,7 +34,7 @@ export default {
                     950: '#451a03',
                 },
                 background: {
-                    light: '#f8fafc', // slate-50
+                    light: '#f8f9fb', // Slightly warmer/cleaner than slate-50
                     DEFAULT: '#ffffff',
                     dark: '#1e293b', // slate-800
                 },
@@ -45,16 +45,21 @@ export default {
                 }
             },
             fontFamily: {
-                sans: ['Inter', 'system-ui', 'sans-serif'],
+                sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
             },
             boxShadow: {
-                'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.1)',
-                'card': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                'soft': '0 2px 10px rgba(0, 0, 0, 0.03)',
+                'card': '0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03)',
+                'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04)',
+                'premium': '0 8px 24px rgba(0,0,0,0.06)',
             },
             borderRadius: {
-                'xl': '1rem',
-                '2xl': '1.5rem',
-                '3xl': '2rem',
+                'xl': '0.75rem', // 12px
+                '2xl': '1rem',    // 16px - reduced from 1.5rem
+                '3xl': '1.5rem',  // 24px
+            },
+            spacing: {
+                '18': '4.5rem',
             }
         },
     },

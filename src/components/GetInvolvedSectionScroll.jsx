@@ -12,7 +12,7 @@ const GetInvolvedSectionScroll = () => {
             icon: BookHeart,
             title: 'Donate Books',
             description: 'Share your books with children who need them. Every book makes a difference.',
-            cta: 'Start Donating',
+            cta: 'DONATE NOW',
             color: '#2d5016'
         },
         {

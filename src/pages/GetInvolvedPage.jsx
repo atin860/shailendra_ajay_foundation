@@ -62,7 +62,7 @@ const GetInvolvedPage = () => {
             icon: <BookHeart />,
             title: 'Donate Books',
             description: 'Share your books and spread knowledge to those who need it most. Every book makes a difference.',
-            buttonText: 'Start Donating',
+            buttonText: 'DONATE NOW',
             color: '#4a7c2c',
             delay: 0
         },

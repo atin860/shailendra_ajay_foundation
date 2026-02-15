@@ -12,6 +12,7 @@ import GetInvolvedPage from './pages/GetInvolvedPage';
 import PrivacyPage from './pages/PrivacyPage';
 import TermsPage from './pages/TermsPage';
 import CookiesPage from './pages/CookiesPage';
+import PaymentDemo from './pages/PaymentDemo';
 import ProgramsSection from './components/ProgramsSection';
 import PageTransition from './components/PageTransition';
 import PageLayout from './components/PageLayout';
@@ -65,6 +66,13 @@ function App() {
                         <Route path="/get-involved" element={
                             <PageLayout>
                                 <PageTransition><GetInvolvedPage /></PageTransition>
+                            </PageLayout>
+                        } />
+
+                        {/* Payment Demo Page */}
+                        <Route path="/payment-demo" element={
+                            <PageLayout>
+                                <PageTransition><PaymentDemo /></PageTransition>
                             </PageLayout>
                         } />
 
