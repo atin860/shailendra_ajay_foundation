@@ -37,6 +37,8 @@ const createOrderHandler = async (req, res) => {
     // Generate unique receipt ID ensuring no collision
     const receiptId = `rcpt_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
 
+
+
     const options = {
         amount: amountInPaisa,
         currency,
