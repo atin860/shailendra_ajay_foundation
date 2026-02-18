@@ -1,91 +1,77 @@
-// Vercel Serverless Function - Create Razorpay Order
-// This function runs on Vercel's serverless infrastructure
-
 import Razorpay from 'razorpay';
+import crypto from 'crypto';
 
-// CORS headers for security
-const corsHeaders = {
-    'Access-Control-Allow-Origin': '*', // In production, replace with your domain
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-};
+// Reusable handler wrapper for consistent error/response
+// Note: In Vercel, relative imports work fine within the repo structure
+import { handleRequest } from './_utils/handler.js';
 
-export default async function handler(req, res) {
-    // Handle CORS preflight
-    if (req.method === 'OPTIONS') {
-        return res.status(200).json({});
+const createOrderHandler = async (req, res) => {
+    // 1. Validate Environment Variables
+    const { RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET } = process.env;
+
+    if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
+        throw { statusCode: 500, message: 'Server configuration error: Missing Razorpay keys' };
     }
 
-    // Only allow POST requests
-    if (req.method !== 'POST') {
-        return res.status(405).json({
-            success: false,
-            message: 'Method not allowed'
-        });
+    // 2. Validate Request Body
+    const { amount, currency = 'INR', receipt_notes = {} } = req.body;
+
+    if (!amount || isNaN(amount) || amount < 1) {
+        throw { statusCode: 400, message: 'Invalid amount. Minimum amount is 1 INR.' };
     }
 
+    if (currency !== 'INR') { // Add more currencies if needed
+        throw { statusCode: 400, message: 'Only INR currency is supported.' };
+    }
+
+    // 3. Initialize Razorpay
+    const razorpay = new Razorpay({
+        key_id: RAZORPAY_KEY_ID,
+        key_secret: RAZORPAY_KEY_SECRET,
+    });
+
+    // 4. Create Order Options
+    // Convert amount to paisa (smallest currency unit)
+    const amountInPaisa = Math.round(Number(amount) * 100);
+
+    // Generate unique receipt ID ensuring no collision
+    const receiptId = `rcpt_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
+
+    const options = {
+        amount: amountInPaisa,
+        currency,
+        receipt: receiptId,
+        payment_capture: 1, // Auto capture
+        notes: {
+            ...receipt_notes,
+            source: 'web_donation',
+            created_at: new Date().toISOString()
+        }
+    };
+
+    // 5. Create Order via Razorpay
     try {
-        // Get environment variables
-        const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
-        const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+        const order = await razorpay.orders.create(options);
 
-        // Validate environment variables
-        if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) {
-            console.error('❌ Razorpay credentials missing');
-            return res.status(500).json({
-                success: false,
-                message: 'Payment gateway configuration error'
-            });
-        }
-
-        // Initialize Razorpay instance
-        const razorpay = new Razorpay({
-            key_id: RAZORPAY_KEY_ID,
-            key_secret: RAZORPAY_KEY_SECRET,
-        });
-
-        // Get amount from request body
-        const { amount } = req.body;
-
-        // Validate amount
-        if (!amount || amount < 1) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid amount'
-            });
-        }
-
-        // Convert amount to paisa (Razorpay expects amount in smallest currency unit)
-        const amountInPaisa = Math.round(amount * 100);
-
-        // Create Razorpay order
-        const order = await razorpay.orders.create({
-            amount: amountInPaisa,
-            currency: 'INR',
-            receipt: `receipt_${Date.now()}`,
-            notes: {
-                created_at: new Date().toISOString(),
-            }
-        });
-
-        console.log('✅ Order created successfully:', order.id);
-
-        // Return order details
+        // Return standard response
         return res.status(200).json({
             success: true,
             order_id: order.id,
             amount: order.amount,
             currency: order.currency,
+            key_id: RAZORPAY_KEY_ID, // Frontend needs this public key
             message: 'Order created successfully'
         });
 
     } catch (error) {
-        console.error('❌ Error creating order:', error);
-
-        return res.status(500).json({
-            success: false,
-            message: error.message || 'Failed to create order',
-            error: process.env.NODE_ENV === 'development' ? error.toString() : undefined
-        });
+        // Pass to wrapper error handler
+        console.error('Razorpay Order Creation Failed:', error);
+        throw {
+            statusCode: error.statusCode || 500,
+            message: error.reason || 'Failed to create order with payment gateway'
+        };
     }
-}
+};
+
+// Export wrapped handler
+export default handleRequest(createOrderHandler);

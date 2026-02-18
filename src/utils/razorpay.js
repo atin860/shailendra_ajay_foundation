@@ -2,7 +2,7 @@
 // Handles all Razorpay payment operations using Vercel API routes
 
 // Get Razorpay Key from environment variable
-const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID || 'rzp_test_SGJ3eStZh062Hy';
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
 
 /**
  * Load Razorpay checkout script dynamically
@@ -58,6 +58,34 @@ export const createRazorpayOrder = async (amount) => {
         return data;
     } catch (error) {
         console.error('❌ Order creation error:', error);
+        throw error;
+    }
+};
+
+/**
+ * Verify Razorpay payment signature via Vercel serverless function
+ * @param {object} paymentData - Payment response from Razorpay
+ * @returns {Promise<object>} Verification result
+ */
+export const verifyRazorpayPayment = async (paymentData) => {
+    try {
+        const response = await fetch('/api/verify-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(paymentData),
+        });
+
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message || 'Payment verification failed');
+        }
+
+        return data;
+    } catch (error) {
+        console.error('❌ Payment verification error:', error);
         throw error;
     }
 };
@@ -125,16 +153,22 @@ export const processRazorpayPayment = async (options) => {
             },
             handler: async function (response) {
                 try {
-                    // Payment successful
-                    console.log('✅ Payment successful!');
-                    console.log('Payment ID:', response.razorpay_payment_id);
-                    console.log('Order ID:', response.razorpay_order_id);
-                    console.log('Signature:', response.razorpay_signature);
+                    // Payment successful on client side, now verify on server
+                    console.log('Verifying payment...', response.razorpay_payment_id);
+
+                    // Verify payment signature
+                    const verificationResult = await verifyRazorpayPayment({
+                        razorpay_order_id: response.razorpay_order_id,
+                        razorpay_payment_id: response.razorpay_payment_id,
+                        razorpay_signature: response.razorpay_signature
+                    });
+
+                    console.log('✅ Payment verified successfully!');
 
                     // Show success alert
                     alert('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
 
-                    // Call success callback with payment details
+                    // Call success callback with verified payment details
                     if (onSuccess) {
                         onSuccess({
                             success: true,
@@ -142,11 +176,13 @@ export const processRazorpayPayment = async (options) => {
                             order_id: response.razorpay_order_id,
                             signature: response.razorpay_signature,
                             amount: amount,
-                            donorDetails: donorDetails
+                            donorDetails: donorDetails,
+                            verification: verificationResult
                         });
                     }
                 } catch (err) {
-                    console.error('❌ Error in payment handler:', err);
+                    console.error('❌ Error in payment verification:', err);
+                    alert('Payment verification failed: ' + err.message);
                     if (onFailure) {
                         onFailure(err);
                     }

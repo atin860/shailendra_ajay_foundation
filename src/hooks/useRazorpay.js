@@ -3,7 +3,9 @@
 
 import { useState, useCallback } from 'react';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000';
+const RAZORPAY_KEY_ID = import.meta.env.VITE_RAZORPAY_KEY_ID;
+
+
 
 /**
  * Custom hook for Razorpay payment integration
@@ -51,7 +53,7 @@ export const useRazorpay = () => {
      */
     const createOrder = useCallback(async (amount, currency = 'INR') => {
         try {
-            const response = await fetch(`${BACKEND_URL}/api/payment/create-order`, {
+            const response = await fetch('/api/create-order', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -79,7 +81,7 @@ export const useRazorpay = () => {
      */
     const verifyPayment = useCallback(async (paymentData) => {
         try {
-            const response = await fetch(`${BACKEND_URL}/api/payment/verify-payment`, {
+            const response = await fetch('/api/verify-payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -134,7 +136,7 @@ export const useRazorpay = () => {
 
             // Step 3: Configure Razorpay options
             const razorpayOptions = {
-                key: orderData.key_id,
+                key: RAZORPAY_KEY_ID,
                 amount: orderData.amount,
                 currency: orderData.currency,
                 name: name,
