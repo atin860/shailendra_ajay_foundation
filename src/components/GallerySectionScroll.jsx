@@ -9,12 +9,12 @@ const GallerySectionScroll = () => {
     const [selectedImage, setSelectedImage] = useState(null);
 
     const images = [
-        { url: 'Event 1.jpeg', caption: 'Children enjoying books' },
-        { url: 'Event 2.jpeg', caption: 'Community library' },
-        { url: 'Event 3.jpeg', caption: 'Reading session' },
-        { url: 'Event 4.jpeg', caption: 'Volunteer team' },
-        { url: 'Event 5.jpeg', caption: 'Book distribution' },
-        { url: 'Event 6.jpeg', caption: 'Workshop event' }
+        { url: '/event_1.jpeg', caption: 'Children enjoying books' },
+        { url: '/event_2.jpeg', caption: 'Community library' },
+        { url: '/event_3.jpeg', caption: 'Reading session' },
+        { url: '/event_4.jpeg', caption: 'Volunteer team' },
+        { url: '/event_5.jpeg', caption: 'Book distribution' },
+        { url: '/event_6.jpeg', caption: 'Workshop event' }
     ];
 
     return (

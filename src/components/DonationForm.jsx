@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Loader, CheckCircle, XCircle, Download, AlertCircle, Heart, QRCode, ExternalLink } from 'lucide-react';
+import { Loader, CheckCircle, Download, AlertCircle, Heart, ExternalLink } from 'lucide-react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { processRazorpayPayment } from '../utils/razorpay';
@@ -153,7 +153,7 @@ const DonationForm = ({ onScrollToQr }) => {
             {/* Header */}
             <div className="bg-gradient-to-r from-green-600 to-emerald-700 p-6 md:p-8 text-white relative overflow-hidden">
                 <div className="relative z-10">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-2 flex items-center gap-2">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-2 flex items-center gap-2 text-white">
                         Donation Fund <Heart className="w-6 h-6 text-red-400 fill-current animate-pulse" />
                     </h2>
                     <p className="text-green-50 text-sm md:text-base opacity-90">
@@ -171,8 +171,8 @@ const DonationForm = ({ onScrollToQr }) => {
                 <div className="bg-gray-100 p-1 rounded-xl flex shadow-inner">
                     <button
                         className={`flex-1 py-3 text-sm md:text-base font-semibold rounded-lg transition-all duration-200 ${donationType === 'onetime'
-                                ? 'bg-white text-green-700 shadow-sm transform scale-[1.02]'
-                                : 'text-gray-500 hover:text-gray-700'
+                            ? 'bg-white text-green-700 shadow-sm transform scale-[1.02]'
+                            : 'text-gray-500 hover:text-gray-700'
                             }`}
                         onClick={() => setDonationType('onetime')}
                     >
@@ -180,8 +180,8 @@ const DonationForm = ({ onScrollToQr }) => {
                     </button>
                     <button
                         className={`flex-1 py-3 text-sm md:text-base font-semibold rounded-lg transition-all duration-200 ${donationType === 'monthly'
-                                ? 'bg-white text-green-700 shadow-sm transform scale-[1.02]'
-                                : 'text-gray-500 hover:text-gray-700'
+                            ? 'bg-white text-green-700 shadow-sm transform scale-[1.02]'
+                            : 'text-gray-500 hover:text-gray-700'
                             }`}
                         onClick={() => setDonationType('monthly')}
                     >
@@ -198,8 +198,8 @@ const DonationForm = ({ onScrollToQr }) => {
                                 key={amount}
                                 onClick={() => handleAmountSelect(amount)}
                                 className={`py-3 px-2 text-sm md:text-base font-semibold border rounded-xl transition-all active:scale-95 ${selectedAmount === amount
-                                        ? 'border-green-600 bg-green-50 text-green-700 ring-1 ring-green-600'
-                                        : 'border-gray-200 text-gray-600 hover:border-green-400 hover:bg-green-50/50'
+                                    ? 'border-green-600 bg-green-50 text-green-700 ring-1 ring-green-600'
+                                    : 'border-gray-200 text-gray-600 hover:border-green-400 hover:bg-green-50/50'
                                     }`}
                             >
                                 ₹{amount.toLocaleString()}
@@ -217,10 +217,10 @@ const DonationForm = ({ onScrollToQr }) => {
                         value={customAmount}
                         onChange={handleCustomAmountChange}
                         className={`w-full pl-10 pr-4 py-4 bg-gray-50 border-2 rounded-xl outline-none transition-all font-semibold text-lg ${validationErrors.amount
-                                ? 'border-red-300 focus:border-red-500 bg-red-50'
-                                : customAmount
-                                    ? 'border-green-500 bg-white text-green-900'
-                                    : 'border-transparent focus:border-green-500 focus:bg-white'
+                            ? 'border-red-300 focus:border-red-500 bg-red-50'
+                            : customAmount
+                                ? 'border-green-500 bg-white text-green-900'
+                                : 'border-transparent focus:border-green-500 focus:bg-white'
                             }`}
                     />
                     {validationErrors.amount && (
@@ -251,8 +251,8 @@ const DonationForm = ({ onScrollToQr }) => {
                             value={donorDetails.name}
                             onChange={(e) => handleInputChange('name', e.target.value)}
                             className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl outline-none focus:ring-2 transition-all ${validationErrors.name
-                                    ? 'border-red-300 focus:ring-red-200'
-                                    : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
+                                ? 'border-red-300 focus:ring-red-200'
+                                : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
                                 }`}
                         />
                         {validationErrors.name && <p className="text-red-500 text-xs mt-1">{validationErrors.name}</p>}
@@ -266,8 +266,8 @@ const DonationForm = ({ onScrollToQr }) => {
                                 value={donorDetails.email}
                                 onChange={(e) => handleInputChange('email', e.target.value)}
                                 className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl outline-none focus:ring-2 transition-all ${validationErrors.email
-                                        ? 'border-red-300 focus:ring-red-200'
-                                        : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
+                                    ? 'border-red-300 focus:ring-red-200'
+                                    : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
                                     }`}
                             />
                             {validationErrors.email && <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>}
@@ -280,8 +280,8 @@ const DonationForm = ({ onScrollToQr }) => {
                                 maxLength={10}
                                 onChange={(e) => handleInputChange('phone', e.target.value.replace(/\D/g, ''))}
                                 className={`w-full px-4 py-3.5 bg-gray-50 border rounded-xl outline-none focus:ring-2 transition-all ${validationErrors.phone
-                                        ? 'border-red-300 focus:ring-red-200'
-                                        : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
+                                    ? 'border-red-300 focus:ring-red-200'
+                                    : 'border-gray-200 focus:border-green-500 focus:ring-green-100 focus:bg-white'
                                     }`}
                             />
                             {validationErrors.phone && <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>}
@@ -330,8 +330,8 @@ const DonationForm = ({ onScrollToQr }) => {
                     onClick={handleDonation}
                     disabled={isProcessing}
                     className={`w-full py-4 px-6 rounded-xl font-bold text-white shadow-lg shadow-green-200 transition-all transform active:scale-[0.98] flex items-center justify-center gap-3 ${isProcessing
-                            ? 'bg-gray-400 cursor-not-allowed shadow-none'
-                            : 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 hover:shadow-xl'
+                        ? 'bg-gray-400 cursor-not-allowed shadow-none'
+                        : 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 hover:shadow-xl'
                         }`}
                 >
                     {isProcessing ? (
@@ -355,53 +355,121 @@ const DonationForm = ({ onScrollToQr }) => {
 
             {/* Success Invoice Modal Overlay */}
             {showSuccess && (
-                <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-                    <div className="bg-white w-full max-w-md max-h-[90vh] rounded-3xl overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
-                        {/* Modal Header */}
-                        <div className="bg-green-600 p-6 text-center text-white shrink-0">
-                            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 backdrop-blur-md">
-                                <CheckCircle className="w-10 h-10 text-white" />
+                <div className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+                    <div className="bg-slate-50 w-full max-w-2xl max-h-[90vh] rounded-xl overflow-hidden shadow-2xl flex flex-col animate-in zoom-in-95 duration-200">
+                        {/* Scrollable Receipt Area */}
+                        <div className="flex-1 overflow-y-auto p-4 md:p-8">
+                            <div className="bg-white p-6 md:p-12 rounded shadow-sm border border-slate-200 relative overflow-hidden" ref={invoiceRef}>
+                                {/* Watermark */}
+                                <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none">
+                                    <img src="/logo.png" className="w-96 grayscale" alt="watermark" />
+                                </div>
+
+                                {/* Header */}
+                                <div className="flex flex-col md:flex-row justify-between items-start border-b border-slate-100 pb-6 mb-6 relative z-10 gap-4">
+                                    <div className="flex items-center gap-4">
+                                        <img src="/logo.png" alt="Foundation Logo" className="w-16 h-16 object-contain" />
+                                        <div>
+                                            <h1 className="text-xs font-bold text-blue-900 uppercase leading-tight">Shailendra Kumar Ajay Foundation</h1>
+                                            <p className="text-xs md:text-sm text-slate-500 font-medium tracking-wide">Registered Non-Profit Organization</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-left md:text-right text-xs text-slate-500">
+                                        <p className="font-semibold text-slate-700 mb-1">Contact Us</p>
+                                        <p>shailksingh6387@gmail.com</p>
+                                        <p>+91 63873 45451</p>
+                                        <p>www.skafoundation.org</p>
+                                    </div>
+                                </div>
+
+                                {/* Title */}
+                                <div className="text-center mb-8 relative z-10">
+                                    <h2 className="text-2xl font-bold text-slate-800 tracking-widest border-b-2 border-green-600 inline-block pb-1">DONATION RECEIPT</h2>
+                                </div>
+
+                                {/* Invoice Details */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 gap-x-8 text-sm relative z-10 mb-8 p-4 bg-slate-50/50 rounded-lg">
+                                    <div className="flex justify-between md:block">
+                                        <p className="text-slate-400 uppercase text-xs font-bold mb-1">Receipt No</p>
+                                        <p className="font-mono font-bold text-slate-700">SKF-{new Date().getFullYear()}-{Math.floor(Math.random() * 10000).toString().padStart(5, '0')}</p>
+                                    </div>
+                                    <div className="flex justify-between md:block md:text-right">
+                                        <p className="text-slate-400 uppercase text-xs font-bold mb-1">Date</p>
+                                        <p className="font-bold text-slate-700">{new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                                    </div>
+
+                                    <div className="col-span-1 md:col-span-2 border-t border-slate-200/50 my-1 hidden md:block"></div>
+
+                                    <div className="grid grid-cols-2 md:block gap-4 md:gap-0">
+                                        <div className="mb-0 md:mb-4">
+                                            <p className="text-slate-400 uppercase text-xs font-bold mb-1">Donor Name</p>
+                                            <p className="font-bold text-slate-800 text-lg">{donorDetails.name}</p>
+                                        </div>
+                                        <div className="md:hidden">
+                                            <p className="text-slate-400 uppercase text-xs font-bold mb-1">Donor Email</p>
+                                            <p className="font-medium text-slate-600 break-all">{donorDetails.email}</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="hidden md:block text-right">
+                                        <p className="text-slate-400 uppercase text-xs font-bold mb-1">Donor Email</p>
+                                        <p className="font-medium text-slate-600">{donorDetails.email}</p>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 md:block gap-4 md:gap-0">
+                                        <div className="mb-0 md:mb-0">
+                                            <p className="text-slate-400 uppercase text-xs font-bold mb-1">Transaction ID</p>
+                                            <p className="font-mono text-slate-600 text-xs bg-white border border-slate-200 py-1 px-2 rounded inline-block">{paymentDetails?.payment_id}</p>
+                                        </div>
+                                        <div className="md:hidden">
+                                            <p className="text-slate-400 uppercase text-xs font-bold mb-1">Payment Method</p>
+                                            <p className="font-medium text-slate-600">Online / Razorpay</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="hidden md:block text-right">
+                                        <p className="text-slate-400 uppercase text-xs font-bold mb-1">Payment Method</p>
+                                        <p className="font-medium text-slate-600">Online / Razorpay</p>
+                                    </div>
+                                </div>
+
+                                {/* Amount Box */}
+                                <div className="bg-green-50 border border-green-100 rounded-lg p-6 text-center mb-8 relative z-10">
+                                    <p className="text-green-700 font-semibold mb-1 uppercase tracking-wider text-xs">Amount Paid</p>
+                                    <p className="text-4xl font-extrabold text-green-700">₹{getFinalAmount().toLocaleString()}</p>
+                                </div>
+
+                                {/* Declaration */}
+                                <div className="bg-slate-50 border border-slate-100 rounded p-4 text-center mb-8 relative z-10">
+                                    <p className="text-slate-500 text-sm italic">"This receipt confirms that we have received the above donation towards our charitable initiatives."</p>
+                                </div>
+
+                                {/* Footer */}
+                                <div className="flex flex-col md:flex-row justify-between items-end pt-8 border-t border-slate-200 relative z-10 gap-8">
+                                    <div className="text-xs text-slate-400 w-full md:w-auto text-center md:text-left">
+                                        <p className="font-bold text-slate-600 mb-1">Shailendra Kumar Ajay Foundation</p>
+                                        <p>Hardoi 241404, Uttar Pradesh, India</p>
+                                        <p className="mt-1">PAN: <span className="font-mono">XXXXXXXXXX</span> | 80G: <span className="font-mono">XXXXXXXX</span></p>
+                                    </div>
+                                    <div className="text-center w-full md:w-auto flex flex-col items-center">
+                                        <div className="relative mb-2">
+                                            <img src="/logo.png" className="w-16 h-16 opacity-30 grayscale" alt="stamp" />
+                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                <CheckCircle className="w-6 h-6 text-green-600/50" />
+                                            </div>
+                                        </div>
+                                        <p className="text-xs font-bold text-slate-600 border-t border-slate-300 pt-1 px-4">Authorized Signature</p>
+                                    </div>
+                                </div>
+
+                                <div className="text-center mt-8">
+                                    <p className="text-green-700 font-bold text-sm bg-green-50 inline-block px-4 py-1 rounded-full">Thank you for your generous contribution!</p>
+                                </div>
                             </div>
-                            <h3 className="text-2xl font-bold">Thank You!</h3>
-                            <p className="text-green-100 opacity-90">Your donation was successful</p>
-                        </div>
-
-                        {/* Invoice Content (Scrollable) */}
-                        <div className="flex-1 overflow-y-auto p-6 bg-gray-50" ref={invoiceRef}>
-                            <div className="bg-white border text-center p-6 rounded-2xl shadow-sm space-y-4">
-                                <div>
-                                    <p className="text-xs text-gray-400 uppercase tracking-wider font-bold">Amount Paid</p>
-                                    <p className="text-3xl font-bold text-gray-800">₹{getFinalAmount().toLocaleString()}</p>
-                                </div>
-                                <div className="border-t border-dashed border-gray-200 my-4"></div>
-                                <div className="space-y-2 text-sm">
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Date</span>
-                                        <span className="font-medium">{new Date().toLocaleDateString()}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Transaction ID</span>
-                                        <span className="font-medium text-xs font-mono bg-gray-100 px-2 py-1 rounded">{paymentDetails?.payment_id}</span>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <span className="text-gray-500">Donor</span>
-                                        <span className="font-medium">{donorDetails.name}</span>
-                                    </div>
-                                </div>
-
-                                <div className="bg-green-50 text-green-800 text-xs p-3 rounded-lg mt-4">
-                                    We have sent a receipt to <b>{donorDetails.email}</b>
-                                </div>
-                            </div>
-
-                            <p className="text-center text-xs text-gray-400 mt-6 leading-relaxed">
-                                SHAILENDRA KUMAR AJAY FOUNDATION<br />
-                                Reg. Non-Profit Organization
-                            </p>
                         </div>
 
                         {/* Modal Footer (Sticky) */}
-                        <div className="p-4 border-t bg-white shrink-0 flex gap-3">
+                        <div className="p-4 border-t bg-white shrink-0 flex gap-3 z-20 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
                             <button
                                 onClick={resetForm}
                                 className="flex-1 py-3 text-gray-600 font-semibold hover:bg-gray-100 rounded-xl transition-colors"
@@ -413,21 +481,21 @@ const DonationForm = ({ onScrollToQr }) => {
                                     if (!invoiceRef.current) return;
                                     const btn = e.currentTarget;
                                     const originalText = btn.innerText;
-                                    btn.innerText = 'Downloading...';
+                                    btn.innerText = 'Generating PDF...';
                                     try {
                                         const canvas = await html2canvas(invoiceRef.current, {
                                             scale: 2,
                                             useCORS: true,
                                             allowTaint: true,
-                                            backgroundColor: '#f9fafb',
+                                            backgroundColor: '#ffffff',
                                             logging: false
                                         });
                                         const imgData = canvas.toDataURL('image/png');
-                                        const pdf = new jsPDF('p', 'mm', 'a5');
+                                        const pdf = new jsPDF('p', 'mm', 'a4');
                                         const pdfWidth = pdf.internal.pageSize.getWidth();
                                         const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
                                         pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-                                        pdf.save(`Receipt_${paymentDetails?.payment_id}.pdf`);
+                                        pdf.save(`SKAF_Receipt_${paymentDetails?.payment_id}.pdf`);
                                     } catch (err) {
                                         console.error(err);
                                         alert("Could not generate PDF. Please try again.");
@@ -435,10 +503,10 @@ const DonationForm = ({ onScrollToQr }) => {
                                         btn.innerText = originalText;
                                     }
                                 }}
-                                className="flex-1 py-3 bg-gray-900 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-black transition-colors"
+                                className="flex-1 py-3 bg-blue-900 text-white font-semibold rounded-xl flex items-center justify-center gap-2 hover:bg-blue-800 transition-colors shadow-lg shadow-blue-900/20"
                             >
                                 <Download size={18} />
-                                Receipt
+                                Download PDF
                             </button>
                         </div>
                     </div>
