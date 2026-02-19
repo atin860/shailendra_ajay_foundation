@@ -106,7 +106,7 @@ const PrivacyPage = () => {
                         </p>
                         <div className="contact-box">
                             <p><strong>Email:</strong> privacy@shailendrakumarajay.org</p>
-                            <p><strong>Phone:</strong> +91 63873 45451</p>
+                            <p><strong>Phone:</strong> +91 63873 45441</p>
                             <p><strong>Address:</strong> 123 Education Street, Mumbai, Maharashtra, India</p>
                         </div>
                     </section>

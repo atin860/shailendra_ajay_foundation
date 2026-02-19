@@ -9,7 +9,7 @@ const ContactSectionScroll = () => {
         <section id="contact" className="py-24 bg-white">
             <div className="container-custom">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-                    
+
                     {/* Left: Info */}
                     <div>
                         <span className="text-indigo-600 font-bold text-sm tracking-wide uppercase mb-2 block">Get in Touch</span>
@@ -37,7 +37,7 @@ const ContactSectionScroll = () => {
                                 <div>
                                     <h4 className="text-lg font-bold text-gray-900 mb-1">Call Us</h4>
                                     <p className="text-gray-600 mb-1">Mon-Fri from 9am to 6pm.</p>
-                                    <a href="tel:+916387345451" className="text-indigo-600 font-semibold hover:underline">+91 63873 45451</a>
+                                    <a href="tel:+916387345451" className="text-indigo-600 font-semibold hover:underline">+91 63873 45441</a>
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@ const ContactSectionScroll = () => {
                                 </div>
                                 <div>
                                     <h4 className="text-lg font-bold text-gray-900 mb-1">Visit Us</h4>
-                                    <p className="text-gray-600">Hardoi 241404, Uttar Pradesh, India</p>
+                                    <p className="text-gray-600">Hardoi 241304, Uttar Pradesh, India</p>
                                 </div>
                             </div>
                         </div>
@@ -64,22 +64,22 @@ const ContactSectionScroll = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">Full Name</label>
-                                    <input 
-                                        type="text" 
-                                        placeholder="John Doe" 
+                                    <input
+                                        type="text"
+                                        placeholder="John Doe"
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
                                     />
                                 </div>
                                 <div>
                                     <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address</label>
-                                    <input 
-                                        type="email" 
-                                        placeholder="john@example.com" 
+                                    <input
+                                        type="email"
+                                        placeholder="john@example.com"
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all"
                                     />
                                 </div>
                             </div>
-                            
+
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">Subject</label>
                                 <select className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all text-gray-600">
@@ -92,9 +92,9 @@ const ContactSectionScroll = () => {
 
                             <div>
                                 <label className="block text-sm font-semibold text-gray-700 mb-2">Message</label>
-                                <textarea 
-                                    rows="4" 
-                                    placeholder="How can we help you?" 
+                                <textarea
+                                    rows="4"
+                                    placeholder="How can we help you?"
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10 outline-none transition-all resize-none"
                                 ></textarea>
                             </div>

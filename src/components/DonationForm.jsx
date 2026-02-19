@@ -377,7 +377,7 @@ const DonationForm = ({ onScrollToQr }) => {
                                     <div className="text-left md:text-right text-xs text-slate-500">
                                         <p className="font-semibold text-slate-700 mb-1">Contact Us</p>
                                         <p>shailksingh6387@gmail.com</p>
-                                        <p>+91 63873 45451</p>
+                                        <p>+91 63873 45441</p>
                                         <p>www.skafoundation.org</p>
                                     </div>
                                 </div>
@@ -448,7 +448,7 @@ const DonationForm = ({ onScrollToQr }) => {
                                 <div className="flex flex-col md:flex-row justify-between items-end pt-8 border-t border-slate-200 relative z-10 gap-8">
                                     <div className="text-xs text-slate-400 w-full md:w-auto text-center md:text-left">
                                         <p className="font-bold text-slate-600 mb-1">Shailendra Kumar Ajay Foundation</p>
-                                        <p>Hardoi 241404, Uttar Pradesh, India</p>
+                                        <p>Hardoi 241304, Uttar Pradesh, India</p>
                                         <p className="mt-1">PAN: <span className="font-mono">XXXXXXXXXX</span> | 80G: <span className="font-mono">XXXXXXXX</span></p>
                                     </div>
                                     <div className="text-center w-full md:w-auto flex flex-col items-center">

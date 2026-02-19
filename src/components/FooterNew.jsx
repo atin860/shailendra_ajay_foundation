@@ -14,15 +14,15 @@ import {
 
 // Custom Threads Icon as it might not be in Lucide
 const ThreadsIcon = ({ size = 20, className }) => (
-    <svg 
-        width={size} 
-        height={size} 
-        viewBox="0 0 24 24" 
-        fill="none" 
-        stroke="currentColor" 
-        strokeWidth="2" 
-        strokeLinecap="round" 
-        strokeLinejoin="round" 
+    <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
         className={className}
     >
         <path d="M19 12c0 3.87-3.13 7-7 7s-7-3.13-7-7 3.13-7 7-7 7 3.13 7 7v1" />
@@ -82,8 +82,8 @@ const FooterNew = () => {
     ];
 
     const contactInfo = {
-        address: 'Hardoi 241404, UP, India',
-        phone: '+91 63873 45451',
+        address: 'Hardoi 241304, UP, India',
+        phone: '+91 63873 45441',
         email: 'shailksingh6387@gmail.com'
     };
 
@@ -179,7 +179,7 @@ const FooterNew = () => {
 
                 {/* Donate CTA (Desktop only) */}
                 <div className="hidden lg:block mb-16">
-                     <motion.div
+                    <motion.div
                         className="bg-gradient-to-r from-secondary-400/20 to-secondary-400/10 rounded-2xl p-8 border border-secondary-400/30 relative overflow-hidden"
                         whileHover={{ scale: 1.01 }}
                     >
@@ -201,7 +201,7 @@ const FooterNew = () => {
                                     </div>
                                     <span>Tax Benefits Available</span>
                                 </div>
-                                <Link 
+                                <Link
                                     to="/donate"
                                     className="px-8 py-3 bg-gradient-to-r from-secondary-400 to-secondary-500 text-primary-900 font-bold rounded-full shadow-lg hover:shadow-xl hover:translate-y-px transition-all"
                                 >
@@ -226,10 +226,10 @@ const FooterNew = () => {
                                 { Icon: Facebook, href: "https://www.facebook.com/share/18JDWpWVUv/" },
                                 { Icon: ThreadsIcon, href: "https://www.threads.net/@shailendra_kumar_ajay_foundati" }
                             ].map(({ Icon, href }, i) => (
-                                <a 
-                                    key={i} 
-                                    href={href} 
-                                    target="_blank" 
+                                <a
+                                    key={i}
+                                    href={href}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-secondary-500 hover:text-primary-900 transition-all hover:-translate-y-1"
                                 >

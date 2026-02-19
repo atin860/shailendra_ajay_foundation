@@ -34,7 +34,7 @@ const ContactPage = () => {
         {
             icon: <MapPin className="w-8 h-8" />,
             title: 'Visit Us',
-            content: 'Hardoi 241404, UP',
+            content: 'Hardoi 241304, UP',
             description: 'Come see our library and meet our team',
             color: 'bg-green-100 text-green-600',
             delay: 0
@@ -42,7 +42,7 @@ const ContactPage = () => {
         {
             icon: <Phone className="w-8 h-8" />,
             title: 'Call Us',
-            content: '+91 63873 45451',
+            content: '+91 63873 45441',
             description: 'Mon - Fri, 9AM - 6PM',
             color: 'bg-blue-100 text-blue-600',
             delay: 0.1
@@ -84,7 +84,7 @@ const ContactPage = () => {
                 transition={{ duration: 0.8 }}
             >
                 <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
-                
+
                 <div className="relative z-10 text-center max-w-4xl mx-auto">
                     <motion.span
                         initial={{ opacity: 0, y: 20 }}
@@ -170,17 +170,17 @@ const ContactPage = () => {
                         </div>
 
                         <div className="relative h-64 md:h-80 rounded-2xl overflow-hidden shadow-lg">
-                           <div className="absolute inset-0 bg-primary-900/10 z-10"></div>
-                           {/* Placeholder for illustration or map image if needed */}
-                           <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
+                            <div className="absolute inset-0 bg-primary-900/10 z-10"></div>
+                            {/* Placeholder for illustration or map image if needed */}
+                            <div className="w-full h-full bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center">
                                 <MapPin size={48} className="text-primary-400" />
-                           </div>
-                           <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm p-4 rounded-xl z-20">
+                            </div>
+                            <div className="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-sm p-4 rounded-xl z-20">
                                 <p className="font-semibold text-gray-900 flex items-center gap-2">
-                                    <MapPin size={16} className="text-primary-600"/> 
-                                    Hardoi 241404, UP, India
+                                    <MapPin size={16} className="text-primary-600" />
+                                    Hardoi 241304, UP, India
                                 </p>
-                           </div>
+                            </div>
                         </div>
                     </motion.div>
 
@@ -211,7 +211,7 @@ const ContactPage = () => {
                                     <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
                                     <input
                                         type="email"
-                                        {...register("email", { 
+                                        {...register("email", {
                                             required: "Email is required",
                                             pattern: { value: /^\S+@\S+$/i, message: "Invalid email" }
                                         })}
