@@ -54,3 +54,6 @@ secrets/
 credentials/
 .vercel
 .env*.local
+
+
+# Vercel
